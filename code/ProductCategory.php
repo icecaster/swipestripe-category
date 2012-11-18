@@ -26,7 +26,14 @@ class ProductCategory_Controller extends Page_Controller {
 	public static $products_per_page = 15;
 
 	public function Products() {
-		return PaginatedList::create($this->data()->Products(), $this->request)
+		$catIDs = $this->data()->getDescendantIDList();
+		$catIDs[] = $this->data()->ID;
+
+		$catIDS_sql = implode(",", $catIDs);
+
+		$products = Product::get()->where("ProductCategoryID IN ({$catIDS_sql})");
+
+		return PaginatedList::create($products, $this->request)
 			->setPageLength($this->config()->get("products_per_page"));
 	}
 }

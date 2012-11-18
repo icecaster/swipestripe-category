@@ -25,14 +25,22 @@ class ProductCategory_Controller extends Page_Controller {
 
 	public static $products_per_page = 15;
 
+	public static $show_child_products = true;
+
 	public function Products() {
-		$catIDs = $this->data()->getDescendantIDList();
-		$catIDs[] = $this->data()->ID;
+		if($this->config()->get("show_child_products")) {
 
-		$catIDS_sql = implode(",", $catIDs);
+			$catIDs = $this->data()->getDescendantIDList();
+			$catIDs[] = $this->data()->ID;
 
-		$products = Product::get()->where("ProductCategoryID IN ({$catIDS_sql})");
+			$catIDS_sql = implode(",", $catIDs);
+			$products = Product::get()->where("ProductCategoryID IN ({$catIDS_sql})");
 
+		} else {
+			$products = $this->data()->Products();
+		}
+
+		
 		return PaginatedList::create($products, $this->request)
 			->setPageLength($this->config()->get("products_per_page"));
 	}

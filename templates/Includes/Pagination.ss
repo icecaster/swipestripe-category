@@ -1,5 +1,5 @@
 <% if Products.MoreThanOnePage %>
-	<div class="pagination">
+	<div id="Pagination" class="pagination">
 	  <ul>
 	  
 	    <% if Products.NotFirstPage %>

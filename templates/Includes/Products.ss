@@ -33,7 +33,7 @@
 	  <% end_control %>
   
 	
-	<% include Pagination %>
+	<% include ProductsPagination %>
 
 <% else %>
 

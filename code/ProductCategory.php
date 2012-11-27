@@ -27,6 +27,8 @@ class ProductCategory_Controller extends Page_Controller {
 
 	public static $show_child_products = true;
 
+	public static $products_sort = "ProductCategoryID ASC, Sort ASC";
+
 	public function Products() {
 		if($this->config()->get("show_child_products")) {
 
@@ -40,6 +42,7 @@ class ProductCategory_Controller extends Page_Controller {
 			$products = $this->data()->Products();
 		}
 
+		$products->sort($this->config()->get("products_sort"));
 		
 		return PaginatedList::create($products, $this->request)
 			->setPageLength($this->config()->get("products_per_page"));
